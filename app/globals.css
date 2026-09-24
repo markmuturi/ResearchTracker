@@ -2,25 +2,64 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1d1d1f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #1d1d1f;
+  --color-muted: #86868b;
+  --color-hairline: #d2d2d7;
+  --color-surface: #fbfbfd;
+  --color-accent: #0071e3;
+  --color-accent-hover: #0077ed;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
+
+/* Scroll-triggered reveal, used on the landing page */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal enter transition */
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-modal-in {
+  animation: modal-in 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.animate-toast-in {
+  animation: toast-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Thin, quiet scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #b8b8bd; }
+::-webkit-scrollbar-track { background: transparent; }

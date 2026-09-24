@@ -1,65 +1,171 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+import { useEffect, useState } from 'react';
+import { FolderArchive, FileArchive, DownloadIcon, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+import ResearchlyLogo from '@/assets/ResearchlyLogo.webp';
+import Link from 'next/link';
+import Reveal from '@/components/Reveal';
+
+const HomePage = () => {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    const features = [
+        {
+            icon: FolderArchive,
+            title: 'Every project, in its place',
+            body: 'Keep unrelated research separate. Switch between projects instantly, without losing your place in either.'
+        },
+        {
+            icon: FileArchive,
+            title: 'Sources, notes, and files together',
+            body: 'Attach PDFs, images, and documents directly to the question they support — nothing left scattered across tabs.'
+        },
+        {
+            icon: DownloadIcon,
+            title: 'Yours to take with you',
+            body: 'Export a project, a category, or everything at once as plain JSON. No account, no lock-in.'
+        }
+    ];
+
+    return (
+        <div className="bg-white text-ink">
+            {/* Nav */}
+            <nav className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-xl border-b border-black/5' : 'bg-transparent border-b border-transparent'}`}>
+                <div className="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
+                    <Link href="/" className="flex items-center gap-2 hover:scale-110 transition-all duration-100">
+                        <Image
+                            src={ResearchlyLogo}
+                            alt="Researchly"
+                            width={20}
+                            priority
+                            className="rounded-sm"
+                        />
+                        <span className="text-[13px] font-semibold tracking-tight">Researchly</span>
+                    </Link>
+
+                    <div className="hidden sm:flex items-center gap-8 text-[13px] text-ink/80">
+                        <a href="#features" className="hover:text-accent font-bold hover:scale-105 transition-all duration-100">Features</a>
+                        <a href="#about" className="hover:text-accent font-bold hover:scale-105 transition-all duration-100">About</a>
+                    </div>
+
+                    <Link
+                        href="/ResearchOrganizer"
+                        className="
+                            text-[13px] font-bold bg-accent text-white px-6 py-2.5 backdrop-blur-xl
+                            shadow-lg shadow-accent/50
+                            rounded-full hover:bg-white/80 hover:translate-y-2 hover:text-accent transition-all duration-300"
+                    >
+                        <p>Get Started</p>
+                    </Link>
+                </div>
+            </nav>
+
+            {/* Hero */}
+            <section className="pt-44 pb-28 px-6 text-center max-w-3xl mx-auto">
+                <Reveal>
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05]">
+                        Research, organized.
+                    </h1>
+                </Reveal>
+                <Reveal delay={120}>
+                    <p className="mt-6 text-xl sm:text-2xl text-muted max-w-xl mx-auto leading-snug">
+                        A focused workspace for every question, source, and finding — built to keep up with how you actually work.
+                    </p>
+                </Reveal>
+                <Reveal delay={240}>
+                    <div className="mt-10 flex items-center justify-center gap-7">
+                        <Link
+                            href="/ResearchOrganizer"
+                            className="
+                                text-[13px] font-bold bg-accent text-white px-6 py-2.5 backdrop-blur-xl
+                                shadow-lg shadow-accent/50
+                                rounded-full hover:bg-white/80 hover:translate-y-2 hover:text-accent transition-all duration-300"
+                    >
+                            Get Started
+                        </Link>
+                        <a
+                            href="#features"
+                            className="
+                                text-accent text-[13px] bg-white font-medium
+                                backdrop-blur-xl shadow-lg shadow-accent/50 rounded-full 
+                                flex items-center gap-1 px-6 py-2.5
+                                hover:gap-2 hover:bg-accent hover:text-white hover:translate-y-2 transition-all duration-300"
+                        >
+                            Learn more <ChevronRight size={15} />
+                        </a>
+                    </div>
+                </Reveal>
+            </section>
+
+            {/* Features */}
+            <section id="features" className="bg-surface border-y border-black/5">
+                <div className="max-w-5xl mx-auto px-6 py-28">
+                    <div className="grid md:grid-cols-3 gap-10">
+                        {features.map((f, i) => (
+                            <Reveal key={f.title} delay={i * 100}>
+                                <div className="bg-white rounded-2xl border border-black/5 p-8 h-full hover:shadow-lg hover:shadow-black/5 hover:-translate-y-0.5 transition-all duration-300">
+                                    <div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-6">
+                                        <f.icon size={20} className="text-accent" strokeWidth={1.75} />
+                                    </div>
+                                    <h3 className="text-lg font-semibold tracking-tight mb-2">{f.title}</h3>
+                                    <p className="text-[15px] text-muted leading-relaxed">{f.body}</p>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Closing CTA */}
+            <section id="about" className="max-w-3xl mx-auto px-6 py-28 text-center">
+                <Reveal>
+                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-4">
+                        Start your next research project in seconds.
+                    </h2>
+                </Reveal>
+                <Reveal delay={100}>
+                    <p className="text-muted text-lg mb-8">No sign-up. No sync required. Your research stays on your device.</p>
+                </Reveal>
+                <Reveal delay={200}>
+                    <Link
+                        href="/ResearchOrganizer"
+                        className="inline-block btext-accent text-[20px] bg-white font-bold
+                                backdrop-blur-xl shadow-lg shadow-accent/50 rounded-full 
+                                items-center gap-1 px-10 py-3
+                                hover:gap-2 hover:bg-accent hover:text-white hover:translate-y-2 transition-all duration-300"
+                    >
+                        OPEN RESEARCHLY
+                    </Link>
+                </Reveal>
+            </section>
+
+            {/* Footer */}
+            <footer className="border-t border-black/5">
+                <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-xs text-muted">© {new Date().getFullYear()} Researchly. All research stays local to your device.</p>
+                    <p className="text-xs text-muted">
+                        Built by{' '}
+                        <a
+                            href="https://personal-portfolio-sand-mu.vercel.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-accent transition-colors"
+                        >
+                            Mark Muturi
+                        </a>
+                    </p>
+                </div>
+            </footer>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
-}
+    );
+};
+
+export default HomePage;
