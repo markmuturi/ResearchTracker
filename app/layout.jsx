@@ -1,5 +1,6 @@
 ﻿import PWAInstaller from '@/components/PWAInstaller';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: 'Researchly - Research Organizer',
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <Analytics />
         <PWAInstaller />
       </body>
     </html>
